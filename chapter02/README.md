@@ -333,3 +333,49 @@ fun mixOptimized ( c1: Color, c2: Color ) =
 `when` 에 아무 인자도 없으려면 각 분기의 조건이 불리언 결과를 계산하는 식이어야 한다.
 
 이 경우 추가 인스턴스를 생성하지 않지만 가독성이 더 떨어진다.
+
+---
+### 스마트 캐스트
+예제로 (1 + 2) + 4 와 같은 간단한 산술식을 계산하는 함수
+
+```kotlin
+interface Expr
+class Num(val value: Int) : Expr
+class Sum(val left: Expr, val right: Expr): Expr
+```
+
+예제인 `Expr` 인터페이스엔 두가지 구현 클래스가 존재
+
+- 식이 수일 경우 → 그 값 반환
+- 식이 합계일 경우 → 좌항 우항 값 계산 후 그 값을 합한 값 반환
+
+```kotlin
+fun eval(e: Expr) :Int {
+    if( e is Num){
+        val n = e as Num //강제 형변환
+        return n.value
+    }
+    
+    if( e is Sum) {
+        return eval(e.left) + eval(e.right) // 스마트 캐스트
+    }
+
+    throw IllegalArgumentException("Unknown expression")
+}
+```
+
+코틀린에서는 `is` 를 사용해 변수 타입을 검사한다
+
+`is` 는 자바의 `instanceof` 와 비슷하다
+
+자바에서는 `instanceof` 으로 타입 확인후 명시적으로 변수 타입 캐스팅
+
+코틀린에서는 프로그래머 대신 컴파일러가 캐스팅을 해준다.
+
+어떤 변수가 원하는 타입인지 일단 `is` 로 검사하고 나면
+
+굳이 변수를 원하는 타입으로 캐스팅하지 않아도
+
+마치 처음부터 그 변수가 원하는 타입으로 선언된것처럼 사용할 수 있다. 하지만 실제로는 컴파일러가 캐스팅을 수행해준다.
+
+이를 **스마트캐스트**라고 부른다.
