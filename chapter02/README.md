@@ -222,8 +222,27 @@ class Rectangle (val height: Int, val width: Int) {
 
 따라서 원하는 대로 소스코드를 구성할 수 있다.
 
-예를 들어 geometry.shapes라는 패키지가 있다면
+예를 들어 `geometry.shapes`라는 패키지가 있다면
 
-그 패키지의 모든 내용을 shapes.kt라는 파일에 넣고, 하위 패키지에 해당하는 별도의 디렉터리를 만들지 않고  `geometry`라는 폴더 안에 `shapes.kt`를 넣어도 된다.
+그 패키지의 모든 내용을 `shapes.kt`라는 파일에 넣고, 하위 패키지에 해당하는 별도의 디렉터리를 만들지 않고  `geometry`라는 폴더 안에 `shapes.kt`를 넣어도 된다.
 
 → 하지만 이럴경우 프로젝트가 커질경우 자바 코드와 혼합해서 사용시 올바른 위치를 찾을 수 없는 문제가 생길 수 있으므로 자바와 마찬가지로 패키지와 디렉토리 구조를 일치화 시키는것이 좋음.
+
+---
+### 선택 표현과 처리
+`enum` 과 `when`
+
+`when` 의 경우 자바의 `swith-case` 문을 대치하는 요소
+
+---
+### enum 클래스 정의
+
+```kotlin
+enum class Color {
+	RED, ORANGE, YELLOW, GREEN, BLUE, INDIGO, VIOLET
+}
+```
+
+코틀린에서 `enum` 은 **소프트 키워드**라 부르는 존재로
+
+`enum` 은 `class` 앞에서는 특별한 의미를 지니지만 다른 곳에서는 이름에 사용 가능!
