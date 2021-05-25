@@ -295,3 +295,41 @@ fun getWarmth (color : Color) = when (color) {
 
 한 분기안에서 여러 매치 패턴을 사용할 경우 값 사이를 `,` 콤마로 분리
 
+---
+### when과 임의의 객체를 함께 사용
+
+```kotlin
+fun mix(c1: Color, c2: Color) =
+	when (setOf(c1, c2)) {
+		setOf(RED, YELLOW) -> ORANGE
+		setOf(YELLOW, BLUE) -> GREEN
+		setOf(BLUE, VIOLET) -> INDIGO
+		else -> throw Exception("Dirty color") // 분기 조건에 맞는 값이 없을 경우
+	}
+```
+
+`when` 식에 여러 객체를 함께 사용하여 매칭 결과를 비교할 수 있음
+
+다만 분기 조건 비교시 여러 `Set` 인스턴스가 생성되기에 효율성을 늘리기 위해선
+
+다른 방법으로 비교한다
+
+```kotlin
+fun mixOptimized ( c1: Color, c2: Color ) =
+    when { // when 에 아무 인자도 없다.
+        (c1 == RED && c2 == YELLOW) ||
+        (c1 == YELLOW && c2 == RED) ->
+            ORANGE
+        (c1 == YELLOW && c2 == BLUE) ||
+        (c1 == BLUE && c2 == YELLOW) ->
+            GREEN
+        (c1 == BLUE && c2 == VIOLET) ||
+        (c1 == VIOLET && c2 == BLUE) ->
+            INDIGO
+        else -> throw Exception("Dirty color ")
+    }
+```
+
+`when` 에 아무 인자도 없으려면 각 분기의 조건이 불리언 결과를 계산하는 식이어야 한다.
+
+이 경우 추가 인스턴스를 생성하지 않지만 가독성이 더 떨어진다.
