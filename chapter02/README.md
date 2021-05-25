@@ -246,3 +246,22 @@ enum class Color {
 코틀린에서 `enum` 은 **소프트 키워드**라 부르는 존재로
 
 `enum` 은 `class` 앞에서는 특별한 의미를 지니지만 다른 곳에서는 이름에 사용 가능!
+
+---
+### 프로퍼티와 메소드가 있는 enum 
+
+자바와 마찬가지로 프로퍼티와 메소드 정의 가능.
+
+```kotlin
+enum class Color (
+	val r: Int, val g: Int, val b: Int // enum 상수의 프로퍼티 정의
+) {
+	// 각 상수 생성시 프로퍼티 지정
+	RED(255,0,0), ORANGE(255,165,0),
+	YELLOW(255,255,0), GREEN(0,255,0), BLUE(0,0,255),
+	INDIGO(75,0,130), VIOLET(238,130,238); //세미콜론 필수
+	
+	// enum 클래스 안에서 메소드 정의
+	fun rgb() = (r * 256 + g) * 256 + b 
+}
+```
