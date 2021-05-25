@@ -11,6 +11,13 @@ fun getMnemonic(color :Color)
     Color.VIOLET -> "정말로"
 }
 
+fun getWarmth (color : Color) = when (color) {
+    Color.RED, Color.ORANGE, Color.YELLOW -> "warm"
+    Color.GREEN -> "neutral"
+    Color.BLUE, Color.INDIGO, Color.VIOLET -> "cold"
+}
+
 fun main() {
     println(getMnemonic(Color.RED))
+    println(getWarmth(Color.GREEN))
 }
