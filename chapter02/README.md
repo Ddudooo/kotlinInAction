@@ -409,3 +409,30 @@ fun eval(e: Expr) :Int =
 ```
 
 if 예제와 마찬가지로 타입을 검사하고 나면 스마트 캐스트가 이뤄진다
+
+### if 와 when의 분기에서 블록 사용
+
+if 나 when 모두 분기에 블록을 사용할 수 있다
+
+그런 경우 블록의 마지막 문장이 블록 전체의 결과가 된다
+
+```kotlin
+fun evalWithLogging(e: Expr) :Int =
+    when (e) {
+        is Num -> {
+            println("num : ${e.value}")
+            e.value
+        }
+        is Sum -> {
+            val left = evalWithLogging(e.left)
+            val right = evalWithLogging(e.right)
+            println("sum : $left + $right")
+            left+right
+        }
+        else -> throw IllegalArgumentException("Unknown expression")
+    }
+```
+
+`블록의 마지막 식이 블록의 결과`라는 규칙은 블록이 값을 만들어내야 하는 경우 항상 성립한다
+
+하지만 함수의 경우 성립하지 않음.
