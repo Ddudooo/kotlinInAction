@@ -265,3 +265,33 @@ enum class Color (
 	fun rgb() = (r * 256 + g) * 256 + b 
 }
 ```
+---
+
+### when 으로 enum 클래스 다루기
+코틀린에서 `when` 도 식이기 때문에 함수에 `when` 을 바로 사용할 수 있음.
+
+```kotlin
+fun getMnemonic(color : Color) = 
+	when(color) {
+		Color.RED -> "홍길동"
+		Color.ORANGE -> "김서방"
+		Color.YELLOW -> "아무개"
+		Color.GREEN -> "갑을병"
+		Color.BLUE -> "코틀린"
+		Color.INDIGO -> "재밌다"
+		Color.VIOLET -> "정말로"
+}
+```
+
+자바와 달리 `break` 필요 없음
+
+```kotlin
+fun getWarmth (color : Color) = when (color) {
+	Color.RED, Color.ORANGE, Color.YELLOW -> "warm"
+	Color.GREEN -> "neutral"
+	Color.BLUE, Color.INDIGO, Color.VIOLET -> "cold"
+}
+```
+
+한 분기안에서 여러 매치 패턴을 사용할 경우 값 사이를 `,` 콤마로 분리
+
