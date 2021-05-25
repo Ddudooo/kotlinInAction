@@ -379,3 +379,33 @@ fun eval(e: Expr) :Int {
 마치 처음부터 그 변수가 원하는 타입으로 선언된것처럼 사용할 수 있다. 하지만 실제로는 컴파일러가 캐스팅을 수행해준다.
 
 이를 **스마트캐스트**라고 부른다.
+
+### 리팩토링 : if를 when으로 변경
+
+**코틀린에서는 if 가 값을 만들어내기 때문에 자바와 달리 3 항 연산자가 따로 없다**
+
+이런 특성을 사용하면 `eval` 함수에서 `return문`과 중괄호를 없애고 **if 식을 본문**으로 사용해 더 간단하게 만들 수 있다.
+
+```kotlin
+fun eval(e: Expr) :Int =
+    if (e is Num) {
+        e.value
+    } else if (e is Sum) {
+        eval(e.left) + eval(e.right)
+    } else {
+        throw IllegalArgumentException("Unknown expression")
+    }
+```
+
+`when` 으로 좀 더 수정
+
+```kotlin
+fun eval(e: Expr) :Int =
+    when (e) {
+        is Num -> e.value
+        is Sum -> eval(e.left) + eval(e.right)
+        else -> throw IllegalArgumentException("Unknown expression")
+    }
+```
+
+if 예제와 마찬가지로 타입을 검사하고 나면 스마트 캐스트가 이뤄진다

@@ -4,6 +4,7 @@ interface Expr
 class Num(val value: Int) : Expr
 class Sum(val left: Expr, val right: Expr) : Expr
 
+/*
 fun eval(e: Expr) :Int {
     if( e is Num){
         val n = e as Num //강제 형변환
@@ -16,6 +17,24 @@ fun eval(e: Expr) :Int {
 
     throw IllegalArgumentException("Unknown expression")
 }
+*/
+/*
+fun eval(e: Expr) :Int =
+    if (e is Num) {
+        e.value
+    } else if (e is Sum) {
+        eval(e.left) + eval(e.right)
+    } else {
+        throw IllegalArgumentException("Unknown expression")
+    }
+*/
+fun eval(e: Expr) :Int =
+    when (e) {
+        is Num -> e.value
+        is Sum -> eval(e.left) + eval(e.right)
+        else -> throw IllegalArgumentException("Unknown expression")
+    }
+
 
 fun main() {
     //(1+2)+4
