@@ -459,3 +459,64 @@ do {
 	/* ... */
 } while(condition)
 ```
+
+### 수에 대한 이터레이션
+
+코틀린에는 자바의 for문 (정통적인 C 스타일 for문) 이 없다.
+
+```java
+for(int i = 0; i< 10; i++){
+	//...
+}
+```
+
+대신 코틀린에서는 범위를 사용하여 해결한다.
+
+코틀린의 범위는 폐구간 또는 양끝을 포함하는 구간
+
+```kotlin
+// when 으로 피즈 버즈 
+fun fizzBuzz(i: Int) = when {
+	i % 15 == 0 -> "FizzBuzz "
+	i % 3 == 0 -> "Fizz "
+	i % 5 ==0 -> "Buzz "
+	else -> "$1"
+}
+
+// for 문으로 피즈 버즈 호출
+fun main() {
+    println("for 문으로 피즈버즈 호출")
+    for(i in 1..100) {
+        println(fizzBuzz(i))
+    }
+
+    println("100 부터 거꾸로 짝수만.")
+    for(i in 100 downTo 1 step 2) {
+        println(fizzBuzz(i))
+    }
+}
+```
+
+`100 downTo 1` 구문이 역방향 수열을 생성
+
+`step 2` 를 붙이면 증가 값의 절댓값이 2로 생성
+
+코틀린에서 범위 표현시 `..` 으로 사용하는데 해당 범위의 경위 끝 값을 포함한다
+
+끝값을 포함하지 않는 범위를 생성할려면 `until` 함수 사용
+
+```kotlin
+fun main(){
+    val size = 100
+
+    println("until 사용하는 for 문")
+    for(x in 0 until size){
+        println("x = $x")
+    }
+
+    println("사용하지 않을시 범위 표현식은 다음과 같음")
+    for(x in 0..size-1){
+        println("x = $x")
+    }
+}
+```
