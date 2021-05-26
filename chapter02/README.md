@@ -550,3 +550,38 @@ for((index, element) in list.withIndex()) { //인덱스와 함께 이터레이�
 	println("$index: $element")
 }
 ```
+
+### in 으로 컬렉션이나 범위의 원소 검사
+
+`in` 연산자를 통해 어떤 값이 범위에 속하는지 검사 가능.
+
+```kotlin
+fun recongnize(c: Char) = when(c) {
+	in '0'..'9' -> "$c 는 숫자!"
+	in 'a'..'z', in 'A'..'Z' -> "$c 는 알파벳!"
+	else -> "$c 는 모르겠어..."
+}
+```
+
+범위는 문자에만 국한되지 않는다.
+
+`Comparable` 구현한 클래스라면 해당 클래스의 인스턴스 객체를 사용해 범위를 생성가능
+
+다만, 그 범위 내의 모든 객체를 항상 이터레이션하지는 못함.
+
+```kotlin
+println("Kotlin" in "Java".."Scala")
+//true
+//"Java" <= "Kotlin" && "Kotlin" <= "Scala"
+```
+
+`in` 연산자를 사용하면 값이 범위 안에 속하는지 항상 결정할 수 있다
+
+`String` 에 있는 `Comparable` 구현이 두 문자열을 알파벳 순서로 비교하기 때문에 여기 있는 `in` 검사에서도 문자열을 알파벳 순서로 비교한다
+
+```kotlin
+println("Kotlin" in setOf("Java", "Scala"))
+// false
+```
+
+컬렉션에도 마찬가지로 `in` 연산 사용 가능.
