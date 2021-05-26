@@ -3,7 +3,8 @@
 코틀린 인 액션 내용 공부하면서 정리
 
 1. [chapter01](chapter01/README.md)
-1. [chapter02](chapter02/README.md)
+2. [chapter02](chapter02/README.md)  
+    2.1. [2장 요약](chapter02/SUMMARY.md)
 
 ---
 
