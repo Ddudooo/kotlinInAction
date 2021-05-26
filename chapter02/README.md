@@ -585,3 +585,60 @@ println("Kotlin" in setOf("Java", "Scala"))
 ```
 
 컬렉션에도 마찬가지로 `in` 연산 사용 가능.
+
+---
+### 코틀린의 예외 처리
+
+코틀린의 예외 처리는 자바나 다른 언어의 예외 처리와 비슷
+
+자바와 다른점은
+
+```kotlin
+throw IllegalArgumentException("오류 발생!")
+```
+
+다른 클래스 생성과 마찬가지로 `new` 를 붙일 필요 없음.
+
+`throw` 는 식이므로 다른 식에도 포함 가능
+
+```kotlin
+val percentage = 
+	if (number in 0..100)
+		number
+  else
+		throw IllegalArgumentException("퍼센테이지는 0부터 100사이 값만 됩니다!") 
+```
+
+### try, catch, finally
+
+```kotlin
+fun readNumber(reader: BufferedReader) : Int? {
+	try {
+		val line = reader.readLine()
+		return Integer.parseInt(line)
+	}
+	catch (e: NumberFormatException) {
+		return null
+	}
+	finally {
+		reader.close()
+	}
+}
+
+fun main() {
+	val reader = BufferedReader(StringReader("239"))
+	println(readNumber(reader))
+}
+```
+
+자바와 큰 차이는 `throws` 절이 코드에 없다는 점
+
+자바에서는 체크 예외(`IOException` )d을 명시적으로 처리해야 함
+
+코틀린은 체크 예외와 언체크 예외를 구별하지 않음
+
+함수가 던지는 예외를 지정하지 않고 발생한 예외를 잡아도 되고 안잡아도 됨
+
+관습상 프로그래머들이 예외를 의미없이 다시 던지거나, 예외를 잡되 처리하지 않고 무시하는 경우가 흔하게 이루어짐
+
+이로 인해 예외 처리 규칙이 실제로 오류 발생을 방지 못하는 경우가 자주 있음
