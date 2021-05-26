@@ -642,3 +642,32 @@ fun main() {
 관습상 프로그래머들이 예외를 의미없이 다시 던지거나, 예외를 잡되 처리하지 않고 무시하는 경우가 흔하게 이루어짐
 
 이로 인해 예외 처리 규칙이 실제로 오류 발생을 방지 못하는 경우가 자주 있음
+
+### try 를 식으로 사용
+
+```kotlin
+fun readNumber(reader: BufferedReader) {
+	val number = try {
+		// 아래 식이 try 식의 값
+		Integer.parseInt(reader.readLine())
+	} catch (e : NumberFormatException) {
+		return
+	}
+	println(number)
+}
+
+fun main() {
+	val reader = BufferedReader(StringReader("239"))
+	readNumber(reader)
+}
+```
+
+코틀린의 `try` 키워드는 `if`나 `when`과 마찬가지로 식이다.
+
+따라서 `try`의 값을 변수에 대입할 수 있다.
+
+`if` 와 달리 중괄호 `{ }` 로 반드시 둘러싸야 함.
+
+`catch` 블록 이후 계속 진행하려고 한다면
+
+`try` 블록 과 마찬가지로 값을 만들면 가능
