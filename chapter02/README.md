@@ -520,3 +520,33 @@ fun main(){
     }
 }
 ```
+
+### 맵에 대한 이터레이션
+
+자바의 `for` 문과 동일하게 동작
+
+```kotlin
+// 키에 대해 정렬을 위해 TreeMap 사용
+val binaryReps = TreeMap<Char, String>()
+
+fun main() {
+    for (c in 'A'..'F') { // A부터 F까지 문자의 범위 지정
+        // 아스키 코드를 2진 표현으로 변경
+        val binary = Integer.toBinaryString(c.toInt())
+        // 문자를 키값으로 2진표현식을 맵에 넣음
+        binaryReps[c] = binary
+    }
+
+    for ((letter, binary) in binaryReps) { // 맵에 대해 이터레이션
+        println("$letter = $binary")
+    }
+}
+```
+
+```kotlin
+val list = arrayListOf("10", "11","1001")
+
+for((index, element) in list.withIndex()) { //인덱스와 함께 이터레이션
+	println("$index: $element")
+}
+```
