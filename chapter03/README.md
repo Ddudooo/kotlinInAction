@@ -71,3 +71,20 @@ fun <T> joinToString(
 함수에 많은 인수가 있고 `Boolean` 또는 `Value` 경우 유용
 
 `joinToString(collection, separator = " ", prefix = " ", postfix = ".")`
+
+### 디폴트 파라미터 `Default arguments`
+
+코틀린에서는 함수 선언시 **파라미터의 디폴트 값**을 지정 할 수 있음
+
+```kotlin
+fun <T> joinToString(
+		collection: Collection<T>,
+		separator: String = ", ",
+		prefix: String = "",
+		postfix: String = ""
+): String
+```
+
+호출시에는 이름을 생략할시, 함수 선언할 때와 같은 순서로 인자 지정
+
+중간에 있는 인자 생략시, 지정 인자에 이름을 붙여서 지정
