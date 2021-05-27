@@ -7,3 +7,28 @@
 
 ---
 
+### 코틀린에서 컬렉션 만들기
+
+코틀린에서 컬렉션 초기화 및 선언하는 방법
+
+**기본적으로 생성되는 컬렉션은 불변 타입**
+
+### List
+
+불변 리스트 - `listOf()`
+
+가변 리스트 - `mutableListOf()` , `arrayListOf()` 등...
+
+### Set
+
+불변 셋 - `setOf()`
+
+가변 셋 - `mutableSetOf()` , `hashSetOf()` , `linkedSetOf()` , `sortedSetOf()`  등...
+
+### Map
+
+불변 맵 - `mapOf()`
+
+가변 맵 - `mutableMapOf()`, `hashMapOf()` , `linkedMapOf()` , `sortedMapOf()` 등...
+
+해당 함수로 생성된 클래스는 기존 자바 콜렉션과 같은 클래스
