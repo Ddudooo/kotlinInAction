@@ -412,3 +412,116 @@ fun parsePath(path: String) {
 ![img.png](static/images/image06.png)
 
 정규식을 만들고 정규식 매칭에 성공하면 그룹별로 분해하여 `destructured` 프로퍼티를 각 변수에 대입 (구조 분해)
+
+### 여러 줄 3중 따옴표 문자열
+
+3중 따옴표 문자열을 단순히 문자열 이스케이프를 피하기 위해서만 사용하지는 않는다
+
+3중 따옴표 문자열에는 줄 바꿈을 아무 문자열이나 이스케이프 없이 그대로 들어간다
+
+3중 따옴표 문자열 안에 `$`를 넣어야 한다면 `val price = """${ ’$’ } 99.9，"""`처럼 어쩔 수 없이 문자열 템플릿 안에 `'$'`문자를 넣어야 한다.
+
+---
+#코드 다듬기: 로컬 함수와 확장
+
+> 많은 개발자들이 좋은 코드의 중요한 특징 중 하나가 중복이 없는 것이라 믿는다.
+
+자바 코드 작성시에 반복을 피하기 쉽지는 않다
+
+많은 경우 메소드 추출 리팩토링을 적용해 긴 메소드를 부분 부분 나눠 각 부분을 재활용하는데
+
+작은 부분으로 리팩토링시 클래스안에 작은 메소드가 많아지고 각 메소드간 관계를 파악하기 힘들어서 코드를 이해하기 더 어려워질 수도 있다.
+
+리팩토링 진행후 추출한 메소드를 별도의 내부 클래스에 넣으면 비교적 코드를 깔끔하게 구조화 시킬 수 있으나, 그에 따른 준비 코드가 생성된다.
+
+코틀린의 경우에는 리팩토링 과정으로 추출된 함수를 원 함수 내부에 중첩 시킬 수 있다
+
+`local` 로컬 함수를 통해 이를 해결한다.
+
+```kotlin
+// 코드 중복을 보여주는 예시
+class User(val id: Int, val name: String, val address: String)
+
+fun saveUser(user: User) {
+	if (user. name. isEmpty ()) { 
+		throw IllegalArgumentException(
+			"Can't save user $ {user, id}: empty Name")
+	}
+
+	if (user.address.isEmpty()) {
+		throw IllegalArgumentException (
+			"Can't save user ${user.id}: empty Address")
+	}
+	// user 를 데이터베이스에 저장한다.
+}
+```
+
+```kotlin
+class User(val id: Int, val name: String, val address: String)
+
+fun saveUser(user: User) {
+	fun validate (user: User,
+		value: String,		
+		fieldName : String) {
+			if ( value.isEmpty() ){
+				throw IllegalArgumentException (
+				"Can't save user ${user.id}: empty $fieldName")
+			}
+		}
+		// 로컬 함수를 호출해서 각 필드 검증
+		validate(user, user.name, "Name")
+		validate(user, user.address, "Address")
+		// user 를 데이터베이스에 저장한다.
+}
+```
+
+로컬 함수는 자신이 속한 바깥 함수의 모든 파라미터와 변수를 사용할 수 있음.
+
+```kotlin
+class User(val id: Int, val name: String, val address: String)
+
+fun saveUser(user: User) {
+	fun validate (value: String, fieldName : String) {
+			if ( value.isEmpty() ){
+				throw IllegalArgumentException (
+				// 바깥 함수의 파라미터에 직접 접근 가능
+				"Can't save user ${user.id}: empty $fieldName")
+			}
+		}
+		validate(user.name, "Name")
+		validate(user.address, "Address")
+		// user 를 데이터베이스에 저장한다.
+}
+```
+
+이를 더 개선하자면 User 클래스의 확장함수로 생성한다
+
+```kotlin
+class User(val id: Int, val name: String, val address: String)
+
+fun User.validateBeforeSave() {
+	fun validate (value: String, fieldName : String) {
+			if ( value.isEmpty() ){
+				throw IllegalArgumentException (
+				// 바깥 함수의 파라미터에 직접 접근 가능
+				"Can't save user $id: empty $fieldName")
+			}
+		}
+		validate(name, "Name")
+		validate(address, "Address")
+		// user 를 데이터베이스에 저장한다.
+}
+
+fun saveUser(user: User) {
+	user.validateBeforeSave()
+	// user 를 데이터베이스에 저장
+}
+```
+
+확장 함수를 로컬 함수로 정의할 수도 있다.
+
+즉 `User .validateBeforeSave` 를 `saveUser` 내부에 로컬 함수로 넣을 수 있다.
+
+하지만 중첩된 함수 깊이가 깊어지면 코드를 읽기가 상당히 어려워진다.
+
+일반적으로는 한 단계만 함수를 중첩시키라고 권장한다.
