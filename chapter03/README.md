@@ -305,3 +305,36 @@ fun main(args : Array<Strings>) {
 	println(list)
 }
 ```
+
+### 값의 쌍 다루기: 중위 호출과 구조 분해 선언
+
+맵 생성 함수 예시
+
+`val map = mapOf(1 to "one", 7 to "seven", 53 to "fifty-three")`
+
+`to` 는 **중위 호출** `infix call` 이라는 방식으로 `to` 라는 일반 메소드 호출한것
+
+중위 호출 시에는 수신 객체와 유일한 메소드 인자 사이에 메소드 이름을 넣음
+
+![img.png](static/images/image03.png)
+
+중위 호출이 가능한 경우
+
+1. 인자가 하나뿐인 일반 메소드
+2. 인자가 하나뿐인 확장 함수
+
+함수를 중위 호출에 사용하게 허용하려면 `infix` 변경자를 함수 선언 앞에 추가해야 함
+
+`infix fun Any.to(other: Any) = Pair(this, other)`
+
+`to` 함수를 간략하게 나타낸 형태
+
+`Pair` 는 코틀린 표준 라이브러리 클래스로 두 원소로 이뤄진 순서쌍 표현
+
+`val (number, name) = 1 to "one"` 과 같이 두 변수를 즉시 초기화 가능
+
+해당 기능을 **구조 분해 선언 `destructuring declaration`** 이라고 함
+
+![img.png](static/images/image04.png)
+
+구조 분해 예시
