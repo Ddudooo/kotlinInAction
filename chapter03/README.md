@@ -63,3 +63,11 @@ fun <T> joinToString(
 		return result.toString()
 }
 ```
+
+### 이름 붙인 인자 `Named arguments`
+
+함수 호출시 하나 이상의 인수의 이름을 지정 가능
+
+함수에 많은 인수가 있고 `Boolean` 또는 `Value` 경우 유용
+
+`joinToString(collection, separator = " ", prefix = " ", postfix = ".")`
