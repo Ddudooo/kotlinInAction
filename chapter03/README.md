@@ -257,3 +257,11 @@ var StringBuilder.lastChar: Char
 			this.setCharAt(length -1 ,value)
 		}
 ```
+
+---
+
+### 컬렉션 처리: 가변 길이 인자, 중위 함수 호출, 라이브러리 지원
+
+- `vararg` 키워드 사용시 가변 인자 함수 정의할 수 있음
+- 중위 `infix` 함수 호출 구문을 사용하면 인자가 하나뿐인 메소드를 간편하게 호출 가능
+- 구조 분해 선언 `destructuring declaration` 을 사용하면 복합적인 값을 분해해서 여러 변수에 나눠 남을 수 있음
