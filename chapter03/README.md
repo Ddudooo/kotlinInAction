@@ -367,3 +367,48 @@ fun main(args : Array<Strings>) {
 예를 들어 코틀린에서는 `toRegex` 확장 함수를 사용해 문자열을 정규식으로 변환할 수 있다
 
 `split` 확장 함수에는 구분 문자열을 하나 이상을 인자로 받는 함수도 존재하여 구분 문자열이 여러개를 동시에 넣어 처리도 가능하다
+
+### 정규식과 3중 따옴표로 묶은 문자열
+
+임의 파일의 전체 경로명을 디렉토리, 파일 이름, 확장자로 구분짓는 함수를 예시로 설명
+
+![img.png](static/images/image05.png)
+
+### String 확장 함수를 사용할 경우
+
+```kotlin
+fun parsePath(path: String) {
+	val directory = path.substringBeforeLast ("/")
+	val fullName = path.substringAfterLast("/")
+	val fileName = fullName.substringBeforeLast(".")
+	val extension = fullName.substringAfterLast(".")
+	println("Dir: $directory, name: $fileName, ext: $extension")
+}
+
+fun main(){
+	parsePath("/some/dir/kotlin/sample/StringFunc.docs")
+}
+```
+
+코틀린에서는 정규식을 사용하지 않고도 문자열을 비교적 쉽게 파싱할 수 있다.
+
+정규식의 경우 강력하긴 하지만 나중에 알아보기 힘든 경우가 많다
+
+### 정규식을 사용하는 예
+
+```kotlin
+fun parsePath(path: String) {
+	val regex = """(.+)/(.+)\.(.+)""".toRegex()
+	val matchResult = regex.matchEntire(path)
+	if (matchResult != null) {
+		val (directory, filename, extension) = matchResult.destructured
+		println("Dir: $directory, name: $filename, ext: $extension")
+	}
+}
+```
+
+3중 따옴표 문자열 `""" """` 에서는 역슬래시 `\` 를 포함한 어떤 문자도 이스케이프 할 필요 없다
+
+![img.png](static/images/image06.png)
+
+정규식을 만들고 정규식 매칭에 성공하면 그룹별로 분해하여 `destructured` 프로퍼티를 각 변수에 대입 (구조 분해)
