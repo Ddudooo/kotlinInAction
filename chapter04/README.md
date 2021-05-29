@@ -79,3 +79,37 @@ class Button : Clickable, Focusable {
 자바에서는 `Clickable.super.showOff ()` 처럼 `super` 앞에 기반 타입을 적지만,
 
 코틀린에서는 `super<Clickable>.showOff ()` 처럼 꺾쇠 괄호 안에 기반 타입 이름을 지정한다.
+
+### open, final, abstract 변경자: 기본적으로 final
+자바에서 `final` 로 명시적으로 상속을 금지하는 않는 모든 클래스를 다른 클래스가 상속가능하다.
+
+기본적으로 상속이 가능한 자바 클래스로  생기는 문제로 `취약한 기반 클래스` 문제로
+
+기반 클래스 변경으로 인한 상속클래스의 변동사항이다
+
+기반 클래스 변경시나 기타 다른 이유로 하위 클래스 동작이 예기치 않게 바뀔수 있어 기반 클래스는 취약하다
+
+`이펙티브 자바` 에서는
+
+> 상속을 위한 설계와 문서를 갖추거나, 그럴 수 없다면 상속을 금지하라
+
+이는 오버라이드를 의도한 클래스나 메소드가 아니면 `final` 로 만들라는 것.
+
+코틀린은 이 철학을 따라, 기본적으로 클래스와 메소드 모두 `final` 이다
+
+상속을 허용하려면 클래스 앞에 `open` 변경자를 붙여야 한다
+
+메소드나 프로퍼티에도 오버라이드 허용하려면 `open` 변경자를 필요로 한다
+
+```kotlin
+open class RichButton: Clickable { // open 키워드로 상속에 대해 열림 선언
+	fun disalbe() {} // 별다른 키워들 안붙힐시 기본적으로 final로, 하위 클래스에서 오버라이드 불가
+	open fun animate() {} // open 키워드로 하위 클래스에서 오버라이드 가능
+	override fun click() {} // 오버라이드 된 메소드는 기본적으로 open
+// final override fun click() {} 오버라이드 메소드를 상속 금지하려면 final 키워드 추가
+}
+```
+
+추상 클래스, 메소드는 자바처럼 사용할 수 있음 `abstract` 선언 후 구현 객체에서 오버라이드를 반드시 해야 함으로 `open` 변경자를 명시할 필요가 없음
+
+![img.png](static/images/image01.png)
