@@ -210,3 +210,45 @@ class TwitterUser(nickname: String) : User(nickname) { /*...*/}
 ```kotlin
 class Secretive private constructor() {} // 비공개로 주 생성자 선언
 ```
+
+### 부 생성자: 상위 클래스를 다른 방식으로 초기화
+
+자바에서 오버로드한 생성자가 필요한 상황 중 상당수는
+
+**코틀린의 디폴트 파라미터 값과 이름 붙인 인자 문법을 사용해 해결할 수 있다.**
+
+> 인자에 대한 디폴트 값을 제공하기 위해 부 생성자를 여럿 만들지 말라.
+대신 파라미터의 디폴트 값을 생성자 시그니처에 직접 명시하라.
+
+그럼에도 불구하고 생성자가 여럿 필요한 경우 ( 프레임워크 클래스 확장 등)
+
+```kotlin
+// 주 생성자를 선언하지 않고 부 생성자만 2개 생성한 기반 클래스 예
+open class View {
+	constructor(ctx: Context) {
+		// ...
+	}
+
+	constructor(ctx: Context, attr: AttributeSet) {
+		// ...
+	}
+}
+```
+
+```kotlin
+class MyButton: View{
+	constructor(ctx: Context) : super(ctx) {
+		// ...
+	}
+
+	constructor(ctx: Context, attr: AttributeSet): super(ctx, attr) {
+		// ...
+	}
+}
+```
+
+부 생성자가 필요한 주된 이유는 자바 상호운용성이다.
+하지만 부 생성자가 필요한 다른 경우도 있다.
+
+클래스 인스턴스를 생성할 때
+파라미터 목록이 다른 생성 방법이 여럿 존재하는 경우에는 부 생성자를 여럿 둘 수밖에 없다.
