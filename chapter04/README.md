@@ -435,3 +435,40 @@ class DelegatingCollection<T>(
 클래스 안에 정의된 객체 중 하나에 `companion` 이라는 특별한 표시를 붙이면 그 클래스의 동반 객체로 만들 수 있다
 
 클래스를 확장해야만 하는 경우에는 동반 객체 멤버를 하위 클래스에서 오버라이드할 수 없으므로 여러 생성자를 사용하는 편이 더 나은 해법
+
+### 동반 객체를 일반 객체처럼 사용
+
+동반 객체는 클래스 안에 정의된 일반 객체다.
+
+따라서 동반 객체에 이름을 붙이거나, 동반 객체가 인터페이스를 상속하거나, 동반 객체 안에 확장 함수와 프로퍼티를 정의할 수 있다.
+
+다른 객체 선언과 마찬가지로 동반 객체도 인터페이스를 구현할 수 있다
+
+인터페이스를 구현하는 동반 객체를 참조할 때 객체를 둘러싼 클래스의 이름을 바로 사용할 수 있다.
+
+```kotlin
+interface JSONFactory<T> {
+	fun fromJSON(jsonText: String): T
+}
+
+class Person(val name: String) {
+	companion object : JSONFactory<Person> {
+		override fun fromJSON(jsonText: String) : Person = {}//... 
+	}
+}
+```
+
+```kotlin
+fun loadFromJSON<T> (factory: JSONFactory<T>):T {
+	// ...
+}
+loadFromJson(Person) // 동반객체의 인스턴스를 함수에 넘김
+```
+
+### 동반 객체 확장
+
+클래스에 동반 객체가 있으면 그 객체 안에 함수를 정의함으로써 클래스에 대해 호출할 수 있는 확장 함수를 만들 수 있다.
+
+동반 객체에 대한 확장 함수를 작성할 수 있으려면 원래 클래스에 동반 객체를 꼭 선언해야 한다는 점에 주의하라.
+
+설령 빈 객체라도 동반 객체가 꼭 있어야 한다.
