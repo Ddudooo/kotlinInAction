@@ -157,3 +157,56 @@ open class RichButton: Clickable { // open 키워드로 상속에 대해 열림 
 `sealed`로 표시된 클래스는 자동으로 `open`
 
 ![img.png](static/images/image04.png)
+
+---
+### 뻔하지 않은 생성자와 프로퍼티를 갖는 클래스 선언
+
+코틀린에서는 `주 생성자` 와 `부생성자`를 구분한다
+
+`주 생성자` - 클래스 본문 밖에서 정의하는 간략한 생성자
+
+`부 생성자` - 클래스 본문에서 정의하는 생성자
+
+추가로 `초기화 블록`을 통해 생성자 외에도 초기화 로직을 추가할 수 있다
+
+### 클래스 초기화: 주 생성자와 초기화 블록
+
+클래스 이름 뒤에 괄호로 둘러 싸인 코드를 `주 생성자` 라고 부름
+
+`class User(val nickname: String)`
+
+주 생성자는 생성자 파라미터를 지정하고, 프로퍼티를 정의한다
+
+```kotlin
+// 명시적으로 선언한 예
+class User constructor(_nickname: String) { // 파라미터가 하나 있는 주 생성자
+	val nickname : String
+	
+	init { // 초기화 블록
+		nickname = _nickname
+	}
+}
+```
+
+프로퍼티 초기화 코드를 포로퍼티 선언에 포함시 초기화 블록이 필요가 없음
+
+주 생성자 앞에 별다른 애노테이션 및 가시성 변경자가 없다면 `constructor` 를 생략 가능
+
+클래스에 상속 받은 기반 클래스가 있다면 주생성자에서 기반 클래스의 생성자를 호출해야 할 필요가 있다
+
+```kotlin
+open class User(val nickname: String) { /* ... */ }
+class TwitterUser(nickname: String) : User(nickname) { /*...*/}
+```
+
+클래스 정의시 생성자를 정의하지 않으면 컴파일러가 인자 없는 디폴트 생성자를 생성한다
+
+인자 없는 디폴트 생성자를 상속하는 클래스도 반드시 생성자를 호출해야 하기에
+
+**상속시 기반 클래스 이름 뒤에는 빈 괄호가 반드시 들어간다**
+
+어떤 클래스를 클래스 외부에서 인스턴스화하지 못하게 막고 싶다면 모든 생성자를 `private` 으로 만들면 된다
+
+```kotlin
+class Secretive private constructor() {} // 비공개로 주 생성자 선언
+```
