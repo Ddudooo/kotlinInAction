@@ -472,3 +472,32 @@ loadFromJson(Person) // 동반객체의 인스턴스를 함수에 넘김
 동반 객체에 대한 확장 함수를 작성할 수 있으려면 원래 클래스에 동반 객체를 꼭 선언해야 한다는 점에 주의하라.
 
 설령 빈 객체라도 동반 객체가 꼭 있어야 한다.
+
+### 객체 식
+
+익명 객체를 정의시에도 `object` 키워드를 쓴다.
+
+```kotlin
+// 익명 객체 예제
+window.addMouseListener(
+	object : MouseAdapter() {
+		override fun mouseClicked(e: MouseEvent) {
+			// ...
+		}
+
+		override fun mouseEntered(e: MouseEvent) {
+			// ...
+		}
+	}
+)
+```
+
+사용한 구문은 객체 선언에서와 같다.
+
+**한 가지 유일한 차이는 객체 이름이 빠졌다는 점이다**
+
+자바의 무명 클래스와 같이 객체 식 안의 코드는 그 식이 포함된 함수의 변수에 접근할
+수 있다.
+
+하지만 자바와 달리 `final` 이 아닌 변수도 객체 식 안에서 사용할 수 있다.
+**따라서 객체 식 안에서 그 변수의 값을 변경할 수 있다**
